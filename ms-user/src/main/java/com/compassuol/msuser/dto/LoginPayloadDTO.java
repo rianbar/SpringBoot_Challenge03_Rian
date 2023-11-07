@@ -1,15 +1,17 @@
 package com.compassuol.msuser.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class LoginPayloadDTO {
 
-    @NotEmpty(message = "field 'email' cannot be empty")
-    @Pattern(regexp = "/^[a-z0-9.]+@[a-z0-9]+\\.[a-z]+\\.([a-z]+)?$/i")
+    @NotBlank(message = "field 'email' cannot be empty")
+    @Pattern(regexp = "^(.+)@(.+)$", message = "email format is wrong")
     private String email;
-    @NotEmpty(message = "field 'password' cannot be empty")
+    @NotBlank(message = "field 'password' cannot be empty")
+    @Size(min = 6, message = "password must be bigger than five characters")
     private String password;
 }

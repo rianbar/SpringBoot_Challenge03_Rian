@@ -14,4 +14,7 @@ spring:
     generate-ddl: true
     show-sql: true
     open-in-view: true
-    
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:swimming}
