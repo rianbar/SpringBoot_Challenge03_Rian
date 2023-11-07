@@ -1,6 +1,8 @@
 package com.compassuol.msuser.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,8 @@ import java.util.Date;
 @Entity
 @Table(name = "tb_user")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserModel {
 
     @Id
@@ -18,8 +22,8 @@ public class UserModel {
     private String firstName;
     private String lastName;
     private String cpf;
-    private String email;
     private Date birthdate;
+    private String email;
     private String password;
     private boolean active;
 }

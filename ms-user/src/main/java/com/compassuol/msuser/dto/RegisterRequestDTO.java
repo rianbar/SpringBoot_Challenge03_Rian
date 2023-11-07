@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class PayloadRequestDTO {
+public class RegisterRequestDTO {
 
     @NotEmpty(message = "field 'firstName' cannot be empty")
     @Size(min = 3)
@@ -24,7 +24,7 @@ public class PayloadRequestDTO {
     @Pattern(regexp = "/^[a-z0-9.]+@[a-z0-9]+\\.[a-z]+\\.([a-z]+)?$/i")
     private String email;
     @NotEmpty(message = "field 'password' cannot be empty")
-    @Size(min = 6)
+    @Size(min = 6, message = "password must be bigger than five characters")
     private String password;
     @NotEmpty(message = "field 'active' cannot be empty")
     private boolean active;

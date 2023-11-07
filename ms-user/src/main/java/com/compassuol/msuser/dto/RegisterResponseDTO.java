@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PayloadResponseDTO {
+public class RegisterResponseDTO {
 
     private String firstName;
     private String lastName;
