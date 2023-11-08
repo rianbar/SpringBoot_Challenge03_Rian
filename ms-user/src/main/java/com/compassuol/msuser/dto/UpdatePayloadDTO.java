@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @Builder
 public class UpdatePayloadDTO {
@@ -26,5 +24,4 @@ public class UpdatePayloadDTO {
     @NotBlank(message = "field 'email' cannot be empty")
     @Pattern(regexp = "^(.+)@(.+)$", message = "email format is wrong")
     private String email;
-    private boolean active;
 }

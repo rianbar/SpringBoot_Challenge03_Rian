@@ -18,11 +18,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtTokenService tokenService;
-    private final ParseUserObject parseObject;
+    private final DataTransferUserObject parseObject;
+    private final CheckBusinessRules checkRules;
 
     public ResponsePayloadDTO registerUserService(RequestPayloadDTO dto) {
-        if (checkIfFieldsAlreadyExists(dto)) {
-            throw new BusinessViolationException("email or cpf already exists");}
+        if (checkRules.checkIfCredentialsAlreadyExists(dto)) throw new BusinessViolationException("email or cpf already exists");
 
         UserModel model = userRepository.save(parseObject.parseToModel(dto));
         return parseObject.ParseToDTO(model);
@@ -31,43 +31,29 @@ public class UserService {
     public String loginUserService(LoginPayloadDTO dto) {
         Optional<UserModel> user = userRepository.findByEmail(dto.getEmail());
 
-        if (user.isPresent() && checkPasswordMatchers(dto.getPassword(), user.get().getPassword())) {
-            return tokenService.CreateToken(user.get());
+        if (user.isPresent() && checkRules.checkPasswordMatchers(dto.getPassword(), user.get().getPassword())) {
+            return tokenService.createToken(user.get());
         } else {
-            throw new UserNotFoundException("user not found");
+            throw new UserNotFoundException("email or password is wrong");
         }
     }
 
     public ResponsePayloadDTO getUserByIdService(int id) {
-        Optional<UserModel> user = userRepository.findById(id);
-        if (user.isEmpty()) throw new UserNotFoundException("user not found");
-        return parseObject.ParseToDTO(user.get());
+        var user = checkRules.checkIfUserExists(id);
+        return parseObject.ParseToDTO(user);
     }
 
     public ResponsePayloadDTO updateUserByIdService(int id, UpdatePayloadDTO dto) {
-        Optional<UserModel> user = userRepository.findById(id);
-        if (user.isEmpty()) throw new UserNotFoundException("user not found");
-        var saveUpdatedUser = userRepository.save(parseObject.UpdateUser(user.get(), dto));
+        var user = checkRules.checkIfUserExists(id);
+        var saveUpdatedUser = userRepository.save(parseObject.SetUpdatedUserFields(user, dto));
         return parseObject.ParseToDTO(saveUpdatedUser);
     }
 
     public ResponsePayloadDTO updateUserPasswordService(int id, ChangePasswordDTO dto) {
-        Optional<UserModel> user = userRepository.findById(id);
-        if (user.isEmpty()) throw new UserNotFoundException("user not found");
+        var user = checkRules.checkIfUserExists(id);
         var encrypted = new BCryptPasswordEncoder().encode(dto.getPassword());
-        user.get().setPassword(encrypted);
-        var saveUser = userRepository.save(user.get());
+        user.setPassword(encrypted);
+        var saveUser = userRepository.save(user);
         return parseObject.ParseToDTO(saveUser);
-    }
-
-    private boolean checkIfFieldsAlreadyExists(RequestPayloadDTO dto) {
-        Optional<UserModel> checkCpf = userRepository.findByCpf(dto.getCpf());
-        Optional<UserModel> checkEmail = userRepository.findByEmail(dto.getEmail());
-        return checkCpf.isPresent() || checkEmail.isPresent();
-    }
-
-    private boolean checkPasswordMatchers(String password, String encodedPassword) {
-        var bcrypt = new BCryptPasswordEncoder();
-        return bcrypt.matches(password, encodedPassword);
     }
 }
