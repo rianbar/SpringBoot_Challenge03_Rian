@@ -1,8 +1,6 @@
 package com.compassuol.msuser.controller;
 
-import com.compassuol.msuser.dto.LoginPayloadDTO;
-import com.compassuol.msuser.dto.RequestPayloadDTO;
-import com.compassuol.msuser.dto.UpdatePayloadDTO;
+import com.compassuol.msuser.dto.*;
 import com.compassuol.msuser.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +36,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserByIdService(id, dto));
     }
 
-    public void updateUserPassword() {};
+    @PutMapping("/users/{id}/password")
+    public ResponseEntity<Object> updateUserPassword(@PathVariable(name = "id") int id,
+                                                                 @RequestBody @Valid ChangePasswordDTO dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserPasswordService(id, dto));
+    };
 }

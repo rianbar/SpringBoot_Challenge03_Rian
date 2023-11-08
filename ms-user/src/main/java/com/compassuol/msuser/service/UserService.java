@@ -1,9 +1,6 @@
 package com.compassuol.msuser.service;
 
-import com.compassuol.msuser.dto.LoginPayloadDTO;
-import com.compassuol.msuser.dto.RequestPayloadDTO;
-import com.compassuol.msuser.dto.ResponsePayloadDTO;
-import com.compassuol.msuser.dto.UpdatePayloadDTO;
+import com.compassuol.msuser.dto.*;
 import com.compassuol.msuser.exception.ExceptionType.BusinessViolationException;
 import com.compassuol.msuser.exception.ExceptionType.UserNotFoundException;
 import com.compassuol.msuser.model.UserModel;
@@ -21,7 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtTokenService tokenService;
-    private final ParseObject parseObject;
+    private final ParseUserObject parseObject;
 
     public ResponsePayloadDTO registerUserService(RequestPayloadDTO dto) {
         if (checkIfFieldsAlreadyExists(dto)) {
@@ -52,6 +49,15 @@ public class UserService {
         if (user.isEmpty()) throw new UserNotFoundException("user not found");
         var saveUpdatedUser = userRepository.save(parseObject.UpdateUser(user.get(), dto));
         return parseObject.ParseToDTO(saveUpdatedUser);
+    }
+
+    public ResponsePayloadDTO updateUserPasswordService(int id, ChangePasswordDTO dto) {
+        Optional<UserModel> user = userRepository.findById(id);
+        if (user.isEmpty()) throw new UserNotFoundException("user not found");
+        var encrypted = new BCryptPasswordEncoder().encode(dto.getPassword());
+        user.get().setPassword(encrypted);
+        var saveUser = userRepository.save(user.get());
+        return parseObject.ParseToDTO(saveUser);
     }
 
     private boolean checkIfFieldsAlreadyExists(RequestPayloadDTO dto) {

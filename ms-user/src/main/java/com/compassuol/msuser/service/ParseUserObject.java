@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
-public class ParseObject {
+public class ParseUserObject {
 
     public UserModel parseToModel(RequestPayloadDTO dto) {
         try {
