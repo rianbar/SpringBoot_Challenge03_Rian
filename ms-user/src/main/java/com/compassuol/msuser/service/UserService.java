@@ -9,10 +9,9 @@ import com.compassuol.msuser.model.UserModel;
 import com.compassuol.msuser.repository.UserRepository;
 import com.compassuol.msuser.security.JwtTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,7 +32,8 @@ public class UserService {
 
     public String loginUserService(LoginPayloadDTO dto) {
         Optional<UserModel> user = userRepository.findByEmail(dto.getEmail());
-        if (user.isPresent()) {
+
+        if (user.isPresent() && checkPasswordMatchers(dto.getPassword(), user.get().getPassword())) {
             return tokenService.CreateToken(user.get());
         } else {
             throw new UserNotFoundException("user not found");
@@ -43,7 +43,11 @@ public class UserService {
     private boolean checkIfFieldsAlreadyExists(RegisterRequestDTO dto) {
         Optional<UserModel> checkCpf = userRepository.findByCpf(dto.getCpf());
         Optional<UserModel> checkEmail = userRepository.findByEmail(dto.getEmail());
-
         return checkCpf.isPresent() || checkEmail.isPresent();
+    }
+
+    private boolean checkPasswordMatchers(String password, String encodedPassword) {
+        var bcrypt = new BCryptPasswordEncoder();
+        return bcrypt.matches(password, encodedPassword);
     }
 }
