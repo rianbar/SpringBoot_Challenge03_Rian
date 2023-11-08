@@ -51,9 +51,12 @@ public class UserService {
 
     public ResponsePayloadDTO updateUserPasswordService(int id, ChangePasswordDTO dto) {
         var user = checkRules.checkIfUserExists(id);
-        var encrypted = new BCryptPasswordEncoder().encode(dto.getPassword());
-        user.setPassword(encrypted);
+        user.setPassword(encryptPassword(dto.getPassword()));
         var saveUser = userRepository.save(user);
         return parseObject.ParseToDTO(saveUser);
+    }
+
+    private String encryptPassword(String password) {
+        return new BCryptPasswordEncoder().encode(password);
     }
 }

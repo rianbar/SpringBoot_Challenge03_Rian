@@ -3,6 +3,7 @@ package com.compassuol.msuser.service;
 import com.compassuol.msuser.dto.RequestPayloadDTO;
 import com.compassuol.msuser.dto.ResponsePayloadDTO;
 import com.compassuol.msuser.dto.UpdatePayloadDTO;
+import com.compassuol.msuser.enumerate.RoleEnum;
 import com.compassuol.msuser.model.UserModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class DataTransferUserObject {
                 .email(dto.getEmail())
                 .birthdate(formatDate(dto.getBirthdate()))
                 .password(encrypted)
+                .role(RoleEnum.USER)
                 .active(dto.isActive())
                 .build();
     }

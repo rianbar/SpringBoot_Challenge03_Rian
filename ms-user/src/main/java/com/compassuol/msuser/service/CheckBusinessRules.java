@@ -15,6 +15,7 @@ import java.util.Optional;
 public class CheckBusinessRules {
 
     public static final String NOT_FOUND_MESSAGE = "user not found";
+
     private final UserRepository userRepository;
     public boolean checkIfCredentialsAlreadyExists(RequestPayloadDTO dto) {
         Optional<UserModel> checkCpf = userRepository.findByCpf(dto.getCpf());
