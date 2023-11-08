@@ -1,8 +1,9 @@
 package com.compassuol.msuser.service;
 
 import com.compassuol.msuser.dto.LoginPayloadDTO;
-import com.compassuol.msuser.dto.RegisterRequestDTO;
-import com.compassuol.msuser.dto.RegisterResponseDTO;
+import com.compassuol.msuser.dto.RequestPayloadDTO;
+import com.compassuol.msuser.dto.ResponsePayloadDTO;
+import com.compassuol.msuser.dto.UpdatePayloadDTO;
 import com.compassuol.msuser.exception.ExceptionType.BusinessViolationException;
 import com.compassuol.msuser.exception.ExceptionType.UserNotFoundException;
 import com.compassuol.msuser.model.UserModel;
@@ -22,7 +23,7 @@ public class UserService {
     private final JwtTokenService tokenService;
     private final ParseObject parseObject;
 
-    public RegisterResponseDTO registerUserService(RegisterRequestDTO dto) {
+    public ResponsePayloadDTO registerUserService(RequestPayloadDTO dto) {
         if (checkIfFieldsAlreadyExists(dto)) {
             throw new BusinessViolationException("email or cpf already exists");}
 
@@ -40,7 +41,20 @@ public class UserService {
         }
     }
 
-    private boolean checkIfFieldsAlreadyExists(RegisterRequestDTO dto) {
+    public ResponsePayloadDTO getUserByIdService(int id) {
+        Optional<UserModel> user = userRepository.findById(id);
+        if (user.isEmpty()) throw new UserNotFoundException("user not found");
+        return parseObject.ParseToDTO(user.get());
+    }
+
+    public ResponsePayloadDTO updateUserByIdService(int id, UpdatePayloadDTO dto) {
+        Optional<UserModel> user = userRepository.findById(id);
+        if (user.isEmpty()) throw new UserNotFoundException("user not found");
+        var saveUpdatedUser = userRepository.save(parseObject.UpdateUser(user.get(), dto));
+        return parseObject.ParseToDTO(saveUpdatedUser);
+    }
+
+    private boolean checkIfFieldsAlreadyExists(RequestPayloadDTO dto) {
         Optional<UserModel> checkCpf = userRepository.findByCpf(dto.getCpf());
         Optional<UserModel> checkEmail = userRepository.findByEmail(dto.getEmail());
         return checkCpf.isPresent() || checkEmail.isPresent();

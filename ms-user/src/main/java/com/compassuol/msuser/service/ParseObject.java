@@ -1,7 +1,8 @@
 package com.compassuol.msuser.service;
 
-import com.compassuol.msuser.dto.RegisterRequestDTO;
-import com.compassuol.msuser.dto.RegisterResponseDTO;
+import com.compassuol.msuser.dto.RequestPayloadDTO;
+import com.compassuol.msuser.dto.ResponsePayloadDTO;
+import com.compassuol.msuser.dto.UpdatePayloadDTO;
 import com.compassuol.msuser.model.UserModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Component
 public class ParseObject {
 
-    public UserModel parseToModel(RegisterRequestDTO dto) {
+    public UserModel parseToModel(RequestPayloadDTO dto) {
         try {
             Date parseDate = new SimpleDateFormat("yyyy-MM-dd").parse(dto.getBirthdate());
             String encrypted = new BCryptPasswordEncoder().encode(dto.getPassword());
@@ -27,16 +28,17 @@ public class ParseObject {
                     .active(dto.isActive())
                     .build();
         } catch (ParseException ex) {
-            throw new RuntimeException();
+            throw new RuntimeException(ex);
         }
     }
 
-    public RegisterResponseDTO ParseToDTO(UserModel model) {
+    public ResponsePayloadDTO ParseToDTO(UserModel model) {
         var datePattern = new SimpleDateFormat("dd/MM/yyyy");
         Date getDate = model.getBirthdate();
         String formatData = datePattern.format(getDate);
 
-        return RegisterResponseDTO.builder()
+        return ResponsePayloadDTO.builder()
+                .id(model.getId())
                 .firstName(model.getFirstName())
                 .lastName(model.getLastName())
                 .cpf(model.getCpf())
@@ -45,5 +47,20 @@ public class ParseObject {
                 .password(model.getPassword())
                 .active(model.isActive())
                 .build();
+    }
+
+    public UserModel UpdateUser(UserModel user, UpdatePayloadDTO dto) {
+       try {
+           Date parseToDate = new SimpleDateFormat("yyyy-MM-dd").parse(dto.getBirthdate());
+           user.setFirstName(dto.getFirstName());
+           user.setLastName(dto.getLastName());
+           user.setCpf(dto.getCpf());
+           user.setBirthdate(parseToDate);
+           user.setEmail(dto.getEmail());
+           user.setActive(dto.isActive());
+           return user;
+       } catch (ParseException ex) {
+           throw new RuntimeException(ex);
+       }
     }
 }

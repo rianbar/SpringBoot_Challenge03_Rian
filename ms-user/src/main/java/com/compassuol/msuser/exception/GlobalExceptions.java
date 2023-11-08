@@ -3,6 +3,7 @@ package com.compassuol.msuser.exception;
 import com.compassuol.msuser.exception.ExceptionType.BadGatewayException;
 import com.compassuol.msuser.exception.ExceptionType.BusinessViolationException;
 import com.compassuol.msuser.exception.ExceptionType.UserNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Objects;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptions {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -23,7 +25,7 @@ public class GlobalExceptions {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> getUnexpectedErrorException(RuntimeException ex) {
-        String message = "occurred a unexpected error in server";
+        String message = ex.getMessage();
         var response = new ExceptionResponsePayload(500, "INTERNAL_SERVER_ERROR", message);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }

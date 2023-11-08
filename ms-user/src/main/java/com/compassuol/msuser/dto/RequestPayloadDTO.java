@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegisterRequestDTO {
+public class RequestPayloadDTO {
 
     @NotBlank(message = "field 'firstName' cannot be empty")
     @Size(min = 3)

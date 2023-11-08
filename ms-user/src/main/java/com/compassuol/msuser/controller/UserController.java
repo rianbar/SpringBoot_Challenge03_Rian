@@ -1,7 +1,8 @@
 package com.compassuol.msuser.controller;
 
 import com.compassuol.msuser.dto.LoginPayloadDTO;
-import com.compassuol.msuser.dto.RegisterRequestDTO;
+import com.compassuol.msuser.dto.RequestPayloadDTO;
+import com.compassuol.msuser.dto.UpdatePayloadDTO;
 import com.compassuol.msuser.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public ResponseEntity<Object> userRegister(@RequestBody @Valid RegisterRequestDTO dto) {
+    public ResponseEntity<Object> userRegister(@RequestBody @Valid RequestPayloadDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUserService(dto));
     };
 
@@ -27,9 +28,15 @@ public class UserController {
     };
 
     @GetMapping("/users/{id}")
-    public void getUserById() {}
+    public ResponseEntity<Object> getUserById(@PathVariable(name = "id") int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByIdService(id));
+    }
 
-    public void updateUserById() {}
+    @PutMapping("/users/{id}")
+    public ResponseEntity<Object> updateUserById(@PathVariable(name = "id") int id,
+                                                 @RequestBody @Valid UpdatePayloadDTO dto) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserByIdService(id, dto));
+    }
 
     public void updateUserPassword() {};
 }
