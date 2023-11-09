@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.compassuol.msuser.exception.ExceptionType.BadGatewayException;
+import com.compassuol.msuser.exception.type.BadGatewayException;
 import com.compassuol.msuser.model.UserModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class JwtTokenService {
         } catch (JWTCreationException ex) {
             throw new BadGatewayException("error when create jwt token");
         }
-    };
+    }
 
     public String validateToken(String token) {
         try {
@@ -43,7 +43,7 @@ public class JwtTokenService {
         } catch (JWTVerificationException ex) {
             throw new BadGatewayException("error when validate jwt token");
         }
-    };
+    }
 
     private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));

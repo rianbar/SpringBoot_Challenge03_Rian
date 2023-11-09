@@ -18,12 +18,12 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<Object> userRegister(@RequestBody @Valid RequestPayloadDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUserService(dto));
-    };
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Object> userLogin(@RequestBody @Valid LoginPayloadDTO dto) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.loginUserService(dto));
-    };
+    }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable(name = "id") int id) {
@@ -40,5 +40,5 @@ public class UserController {
     public ResponseEntity<Object> updateUserPassword(@PathVariable(name = "id") int id,
                                                                  @RequestBody @Valid ChangePasswordDTO dto) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserPasswordService(id, dto));
-    };
+    }
 }

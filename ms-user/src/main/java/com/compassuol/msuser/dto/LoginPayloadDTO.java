@@ -3,9 +3,11 @@ package com.compassuol.msuser.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class LoginPayloadDTO {
 
     @NotBlank(message = "field 'email' cannot be empty")

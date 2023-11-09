@@ -1,7 +1,7 @@
 package com.compassuol.msuser.service;
 
 import com.compassuol.msuser.dto.RequestPayloadDTO;
-import com.compassuol.msuser.exception.ExceptionType.UserNotFoundException;
+import com.compassuol.msuser.exception.type.UserNotFoundException;
 import com.compassuol.msuser.model.UserModel;
 import com.compassuol.msuser.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
 package com.compassuol.msuser.exception;
 
-import com.compassuol.msuser.exception.ExceptionType.BadGatewayException;
-import com.compassuol.msuser.exception.ExceptionType.BusinessViolationException;
-import com.compassuol.msuser.exception.ExceptionType.UserNotFoundException;
+import com.compassuol.msuser.exception.type.BadGatewayException;
+import com.compassuol.msuser.exception.type.BusinessViolationException;
+import com.compassuol.msuser.exception.type.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

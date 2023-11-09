@@ -29,20 +29,20 @@ public class DataTransferUserObject {
                 .build();
     }
 
-    public ResponsePayloadDTO ParseToDTO(UserModel model) {
+    public ResponsePayloadDTO parseToDTO(UserModel model) {
         return ResponsePayloadDTO.builder()
                 .id(model.getId())
                 .firstName(model.getFirstName())
                 .lastName(model.getLastName())
                 .cpf(model.getCpf())
-                .birthdate(ParseFormatDate(model.getBirthdate()))
+                .birthdate(parseFormatDate(model.getBirthdate()))
                 .email(model.getEmail())
                 .password(model.getPassword())
                 .active(model.isActive())
                 .build();
     }
 
-    public UserModel SetUpdatedUserFields(UserModel user, UpdatePayloadDTO dto) {
+    public UserModel setUpdatedUserFields(UserModel user, UpdatePayloadDTO dto) {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setCpf(dto.getCpf());
@@ -59,7 +59,7 @@ public class DataTransferUserObject {
         }
     }
 
-    private String ParseFormatDate(Date date) {
+    private String parseFormatDate(Date date) {
         var datePattern = new SimpleDateFormat("dd/MM/yyyy");
         return datePattern.format(date);
     }
