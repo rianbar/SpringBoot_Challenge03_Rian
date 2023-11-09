@@ -2,7 +2,9 @@ package com.compassuol.msuser.service;
 
 import com.compassuol.msuser.dto.RequestPayloadDTO;
 import com.compassuol.msuser.dto.ResponsePayloadDTO;
+import com.compassuol.msuser.dto.SendMessagePayloadDTO;
 import com.compassuol.msuser.dto.UpdatePayloadDTO;
+import com.compassuol.msuser.enumerate.EventEnum;
 import com.compassuol.msuser.enumerate.RoleEnum;
 import com.compassuol.msuser.model.UserModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Component
@@ -22,7 +25,7 @@ public class DataTransferUserObject {
                 .lastName(dto.getLastName())
                 .cpf(dto.getCpf())
                 .email(dto.getEmail())
-                .birthdate(formatDate(dto.getBirthdate()))
+                .birthdate(parseToDate(dto.getBirthdate()))
                 .password(encrypted)
                 .role(RoleEnum.USER)
                 .active(dto.isActive())
@@ -35,7 +38,7 @@ public class DataTransferUserObject {
                 .firstName(model.getFirstName())
                 .lastName(model.getLastName())
                 .cpf(model.getCpf())
-                .birthdate(parseFormatDate(model.getBirthdate()))
+                .birthdate(convertAndFormatDate(model.getBirthdate()))
                 .email(model.getEmail())
                 .password(model.getPassword())
                 .active(model.isActive())
@@ -46,12 +49,20 @@ public class DataTransferUserObject {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setCpf(dto.getCpf());
-        user.setBirthdate(formatDate(dto.getBirthdate()));
+        user.setBirthdate(parseToDate(dto.getBirthdate()));
         user.setEmail(dto.getEmail());
         return user;
     }
 
-    private Date formatDate(String date) {
+    public SendMessagePayloadDTO setPayloadMessage(String email, EventEnum eventType) {
+        return SendMessagePayloadDTO.builder()
+                .event(eventType)
+                .date(buildCurrentlyDate())
+                .email(email)
+                .build();
+    }
+
+    private Date parseToDate(String date) {
         try {
             return new SimpleDateFormat("yyyy-MM-dd").parse(date);
         } catch (ParseException ex) {
@@ -59,8 +70,13 @@ public class DataTransferUserObject {
         }
     }
 
-    private String parseFormatDate(Date date) {
+    private String convertAndFormatDate(Date date) {
         var datePattern = new SimpleDateFormat("dd/MM/yyyy");
         return datePattern.format(date);
+    }
+
+    private String buildCurrentlyDate() {
+        var date = parseToDate(LocalDateTime.now().toString());
+        return convertAndFormatDate(date);
     }
 }

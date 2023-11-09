@@ -11,21 +11,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static com.compassuol.msuser.constants.TestMocks.VALID_REQUEST_PAYLOAD;
-import static com.compassuol.msuser.constants.TestMocks.VALID_RESPONSE_PAYLOAD;
-import static com.compassuol.msuser.constants.TestMocks.VALID_LOGIN_PAYLOAD;
-import static com.compassuol.msuser.constants.TestMocks.VALID_UPDATE_PAYLOAD;
-import static com.compassuol.msuser.constants.TestMocks.VALID_PASSWORD_PAYLOAD;
-import static com.compassuol.msuser.constants.TestMocks.VALID_USER_MODEL;
-
+import static com.compassuol.msuser.constants.TestMocks.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @SpringBootTest
@@ -45,6 +40,9 @@ class UserServiceTest {
 
     @Mock
     UserRepository repository;
+
+    @Mock
+    RabbitTemplate rabbitTemplate;
 
     @Test
     void registerUser_withValidData_returnsObject() {
