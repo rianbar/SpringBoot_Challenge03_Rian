@@ -1,0 +1,15 @@
+server:
+  port: 8100
+spring:
+  application:
+    name: ms-notification
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  data:
+    mongodb:
+      user: admin
+      password: admin
+      uri: mongodb://localhost:27017/db_notify
