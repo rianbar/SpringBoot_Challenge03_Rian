@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: ms-notification
+  description: API description
+  version: 1.0.0
+servers:
+  - url: http://localhost:8100
+paths:
+  /v1/notify:
+    get:
+      summary: get all documents
+      description: get all documents by database
+      responses:
+        '200':
+          description: Operation successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                      event:
+                        type: string
+                      date:
+                        type: string
+        '500':
+          description: Internal Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+
+components:
+  schemas:
+    ErrorModel:
+      type: object
+      properties:
+        code:
+          type: integer
+        status:
+          type: string
+        message:
+          type: string

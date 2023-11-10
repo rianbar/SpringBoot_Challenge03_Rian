@@ -1,13 +1,15 @@
 package com.compassuol.msnotification.model;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Builder
 @Document("user-notifications")
+@NoArgsConstructor
+@AllArgsConstructor
 public class NotifyModel {
 
     @Id

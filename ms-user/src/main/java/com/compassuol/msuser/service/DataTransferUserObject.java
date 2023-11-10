@@ -7,6 +7,8 @@ import com.compassuol.msuser.dto.UpdatePayloadDTO;
 import com.compassuol.msuser.enumerate.EventEnum;
 import com.compassuol.msuser.enumerate.RoleEnum;
 import com.compassuol.msuser.model.UserModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -56,10 +58,19 @@ public class DataTransferUserObject {
 
     public SendMessagePayloadDTO setPayloadMessage(String email, EventEnum eventType) {
         return SendMessagePayloadDTO.builder()
-                .event(eventType)
+                .event(eventType.toString())
                 .date(buildCurrentlyDate())
                 .email(email)
                 .build();
+    }
+
+    public String parseObjectToJson(SendMessagePayloadDTO dto) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(dto);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Date parseToDate(String date) {

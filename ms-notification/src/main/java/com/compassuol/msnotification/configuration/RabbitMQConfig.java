@@ -2,8 +2,8 @@ package com.compassuol.msnotification.configuration;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -26,8 +26,8 @@ public class RabbitMQConfig {
     @Bean
     public Binding binding() {
         Queue queue = new Queue(QUEUE_NOTIFY_NAME);
-        FanoutExchange exchange = new FanoutExchange(USER_EXCHANGE_NAME);
-        return BindingBuilder.bind(queue).to(exchange);
+        TopicExchange exchange = new TopicExchange(USER_EXCHANGE_NAME);
+        return BindingBuilder.bind(queue).to(exchange).with("routingJsonKey");
     }
 
     @Bean

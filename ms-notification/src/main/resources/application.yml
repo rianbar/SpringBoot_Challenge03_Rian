@@ -12,4 +12,4 @@ spring:
     mongodb:
       user: admin
       password: admin
-      uri: mongodb://localhost:27017/db_notify
+      uri: mongodb://admin:admin@localhost/db_notify?authSource=admin

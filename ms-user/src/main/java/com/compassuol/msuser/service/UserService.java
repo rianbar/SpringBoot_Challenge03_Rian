@@ -70,6 +70,7 @@ public class UserService {
 
     private void sendMessage(String email, EventEnum eventType) {
         var objectMessage = parseObject.setPayloadMessage(email, eventType);
-        rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, "", objectMessage);
+        rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE_NAME, "routingJsonKey",
+                parseObject.parseObjectToJson(objectMessage));
     }
 }
