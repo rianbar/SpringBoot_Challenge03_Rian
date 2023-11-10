@@ -38,7 +38,7 @@ public class UserController {
 
     @PutMapping("/users/{id}/password")
     public ResponseEntity<Object> updateUserPassword(@PathVariable(name = "id") int id,
-                                                                 @RequestBody @Valid ChangePasswordDTO dto) {
+                                                     @RequestBody @Valid ChangePasswordDTO dto) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUserPasswordService(id, dto));
     }
 }
