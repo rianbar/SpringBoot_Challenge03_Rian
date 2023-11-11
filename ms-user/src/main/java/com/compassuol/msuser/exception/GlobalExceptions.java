@@ -2,8 +2,8 @@ package com.compassuol.msuser.exception;
 
 import com.compassuol.msuser.exception.type.BadGatewayException;
 import com.compassuol.msuser.exception.type.BusinessViolationException;
+import com.compassuol.msuser.exception.type.ParseObjectException;
 import com.compassuol.msuser.exception.type.UserNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Objects;
 
 @ControllerAdvice
-@Slf4j
 public class GlobalExceptions {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,6 +45,13 @@ public class GlobalExceptions {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> getUserNotFoundException(UserNotFoundException ex) {
+        String message = ex.getMessage();
+        var response = new ExceptionResponsePayload(404, "NOT_FOUND", message);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(ParseObjectException.class)
+    public ResponseEntity<Object> getParseObjectException(ParseObjectException ex) {
         String message = ex.getMessage();
         var response = new ExceptionResponsePayload(404, "NOT_FOUND", message);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);

@@ -6,6 +6,7 @@ import com.compassuol.msuser.dto.SendMessagePayloadDTO;
 import com.compassuol.msuser.dto.UpdatePayloadDTO;
 import com.compassuol.msuser.enumerate.EventEnum;
 import com.compassuol.msuser.enumerate.RoleEnum;
+import com.compassuol.msuser.exception.type.ParseObjectException;
 import com.compassuol.msuser.model.UserModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,7 +70,7 @@ public class DataTransferUserObject {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(dto);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new ParseObjectException("could,t parse object to string");
         }
     }
 
@@ -77,7 +78,7 @@ public class DataTransferUserObject {
         try {
             return new SimpleDateFormat("yyyy-MM-dd").parse(date);
         } catch (ParseException ex) {
-            throw new RuntimeException(ex);
+            throw new ParseObjectException("could,t parse string to date");
         }
     }
 

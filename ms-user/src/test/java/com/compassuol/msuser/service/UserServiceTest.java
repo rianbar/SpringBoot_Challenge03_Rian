@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -42,7 +41,7 @@ class UserServiceTest {
     UserRepository repository;
 
     @Mock
-    RabbitTemplate rabbitTemplate;
+    SendMessageService sendMessageService;
 
     @Test
     void registerUser_withValidData_returnsObject() {
