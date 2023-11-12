@@ -30,12 +30,12 @@ URL: `http://host:8000/v1/login`
     "password": "123456",
 }
 ~~~~
-> [!NOTE] <br>
->If the credentials are correctly validated, user will receive `JWT Token` for unblock any other endpoint.
+> [!NOTE]<br>
+> If the credentials are correctly validated, user will receive `JWT Token` for unblock any other endpoint.
 
 #### Blocked Endpoints 🔒
 
-Update user by Id: <br>
+Get user by Id: <br>
 URL: `http://host:8000/v1/users/{id}`
 
 You must change `{id}` To user id and if user Exists, will receive a payload like this:
@@ -52,8 +52,8 @@ You must change `{id}` To user id and if user Exists, will receive a payload lik
 ~~~~
 
 Update user by Id: <br>
->[!NOTE] <br>
->We do not need to send the password or active fields, because password has its own endpoint.
+>[!NOTE]<br>
+> We do not need to send the password or active fields, because password has its own endpoint.
 
 So, the payload that will be sent will be like the one below: <br>
 URL: `http://host:8000/v1/users/{id}`
