@@ -6,7 +6,7 @@
 
 #### Unblocked Endpoints 🔓
 
-Well, to register a user, we must send a payload to the request body as shown below:<br>
+- Well, to register a user, we must send a payload to the request body as shown below:<br>
 URL: `http://host:8000/v1/users`
 ~~~~
 {
@@ -22,7 +22,7 @@ URL: `http://host:8000/v1/users`
 > [!IMPORTANT]<br>
 > Password field only accept more than six characteres
 
-To login endpoint, we must send **Email** and **Password** in a payload like this:<br>
+- To login endpoint, we must send **Email** and **Password** in a payload like this:<br>
 URL: `http://host:8000/v1/login`
 ~~~~
 {
@@ -35,7 +35,7 @@ URL: `http://host:8000/v1/login`
 
 #### Blocked Endpoints 🔒
 
-Get user by Id: <br>
+- Get user by Id: <br>
 URL: `http://host:8000/v1/users/{id}`
 
 You must change `{id}` To user id and if user Exists, will receive a payload like this:
@@ -51,13 +51,8 @@ You must change `{id}` To user id and if user Exists, will receive a payload lik
 }
 ~~~~
 
-Update user by Id: <br>
->[!NOTE]<br>
-> We do not need to send the password or active fields, because password has its own endpoint.
-
-So, the payload that will be sent will be like the one below: <br>
+- Update user by Id: <br>
 URL: `http://host:8000/v1/users/{id}`
-
 
  ~~~~
 {
@@ -69,8 +64,10 @@ URL: `http://host:8000/v1/users/{id}`
 }
 ~~~~
 
-Update password by Id: <br>
+>[!NOTE]<br>
+> We do not need to send the password or active fields, because password has its own endpoint.
 
+- Update password by Id: <br>
 URL: `http://host:8000/v1/users/{id}/password`
 
 Payload body:
@@ -96,7 +93,7 @@ Response payload:
 }
 ~~~~
 
-### Tools sed in this app 🔧:
+### Tools used in this app 🔧:
 
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
