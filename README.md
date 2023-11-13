@@ -103,6 +103,6 @@ Response payload:
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-> [!IMPORTANT]<br>
+> [!WARNING]<br>
 > Run **mongodb** service out of docker compose to avoid errors. <br>
 > **Docker command**: `docker run -d --name mongodb_container -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin mongo:latest`
